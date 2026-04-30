@@ -20,9 +20,12 @@ namespace Lab_12_Projet
             GestionnaireBd gestionnaireBd = new GestionnaireBd("server=localhost;database=restaurant;uid=root;pwd=;");
 
             var plats = gestionnaireBd.GetPlats();
+            var ingredients = gestionnaireBd.GetIngredient();
 
             foreach (Plat plat in plats)
                 CustomConsole.WriteSuccess(plat.ToString());
+            foreach (Ingredient ingredient in ingredients)
+                CustomConsole.WriteSuccess(ingredient.ToString());
         }
     }
 }

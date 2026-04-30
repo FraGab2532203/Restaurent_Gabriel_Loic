@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="9.7.0" />
+    <PackageReference Include="POOLibrary" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
