@@ -39,18 +39,24 @@ namespace Lab_12_Projet
             set { quantite = value; }
         }
         
-        public Ingredient(int id, string nom, decimal quantite, string type)
+        public Ingredient(int id, string nom, decimal quantite, string type, decimal prix)
         {
             this.id = id;
             this.nom = nom;
             this.quantite = quantite;
             this.type = type;
+            this.prix = prix;
 
+        }
+
+        public void AcheterIngredients()
+        {
+            quantite += 100;
         }
 
         public override string ToString()
         {
-            return $"{nom}, {quantite} {type}";
+            return $"{id} : {nom},  {quantite} {type} a {prix}$ par sac";
         }
     }
 }

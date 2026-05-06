@@ -1,6 +1,7 @@
 ﻿-- =========================
 -- BASE DE DONNÉES
 -- =========================
+
 CREATE DATABASE IF NOT EXISTS restaurant;
 USE restaurant;
 
@@ -27,6 +28,7 @@ CREATE TABLE ingredients (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
     unite_id INT NOT NULL,
+    prix    DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (unite_id) REFERENCES unites(id)
 );
 
@@ -96,22 +98,22 @@ INSERT INTO categories (nom) VALUES
 ('Boisson');
 
 -- INGRÉDIENTS
-INSERT INTO ingredients (nom, unite_id) VALUES
-('Poulet', 1),
-('Boeuf', 1),
-('Riz', 1),
-('Pâtes', 1),
-('Tomate', 1),
-('Lait', 2),
-('Fromage', 1),
-('Sucre', 1),
-('Farine', 1),
-('Oeuf', 3),
-('Beurre', 1),
-('Salade', 1),
-('Pain', 3),
-('Eau', 2),
-('Café', 1);
+INSERT INTO ingredients (nom, unite_id, prix) VALUES
+('Poulet', 1, 2.99),
+('Boeuf', 1, 3.99),
+('Riz', 1, 1.39),
+('Pâtes', 1, 0.39),
+('Tomate', 1, .50),
+('Lait', 2, 4.25),
+('Fromage', 1, 4.50),
+('Sucre', 1, 1.00),
+('Farine', 1, 2.25),
+('Oeuf', 3, 3.30),
+('Beurre', 1, 2.50),
+('Salade', 1, 1.25),
+('Pain', 3, 2.95),
+('Eau', 2, 0.25),
+('Café', 1, 0.67);
 
 -- INVENTAIRE INITIAL
 INSERT INTO inventaire (ingredient_id, quantite_stock) VALUES
@@ -150,3 +152,7 @@ INSERT INTO plat_ingredients VALUES
 (5, 9, 150), (5, 8, 100), (5, 10, 2),
 (6, 13, 2), (6, 7, 50),
 (7, 15, 10), (7, 14, 200);
+
+SELECT ingredients.id AS id, ingredients.nom AS nom, unites.nom AS nom_unite, inventaire.quantite_stock, ingredients.prix 
+            FROM ingredients left JOIN inventaire ON inventaire.ingredient_id = ingredients.id 
+            left JOIN unites ON unites.id = ingredients.unite_id

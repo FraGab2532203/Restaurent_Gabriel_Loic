@@ -1,12 +1,15 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿using ANSIConsole;
+using Google.Protobuf.WellKnownTypes;
+using Lab_11_trycatch_dll;
+using Lab_12_Projet.DataAccess;
+using Lab_12_Projet.Model;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using ANSIConsole;
-using System.Drawing;
-using Lab_11_trycatch_dll;
 
 namespace Lab_12_Projet
 {
@@ -14,6 +17,7 @@ namespace Lab_12_Projet
     {
         //attributs
         private List<Serveur> serveurs = new List<Serveur>();
+        private decimal banque = 1000;
         //Constructeur
 
         //Méthode
@@ -79,5 +83,43 @@ namespace Lab_12_Projet
                 }
             }
         }
+
+        public void AcheterIngredient()
+        {
+            string reponce = "";
+            List<Ingredient> listIngredient = new List<Ingredient>();
+            GestionnaireBd gestionnaireBd = new GestionnaireBd("server=localhost;database=restaurant;uid=root;pwd=;");
+            var ingredients = gestionnaireBd.GetIngredient();
+            foreach (Ingredient ingredient in ingredients)
+            {
+                CustomConsole.WriteSuccess(ingredient.ToString());
+                listIngredient.Add(ingredient);
+            }
+            reponce = Console.ReadLine();
+            foreach (Ingredient ingredient in listIngredient)
+            {
+                if (ingredient.Nom == reponce)
+                {
+                    if(ingredient.Prix <= banque)
+                    {
+                        Console.WriteLine(ingredient);
+                        banque-=ingredient.Prix;
+                        ingredient.AcheterIngredients();
+                        Console.WriteLine(ingredient);
+                        Console.WriteLine(banque);
+                        Console.ReadLine();
+                    }
+                }
+            }
+        }
+        public void AfficherMenu()
+        {
+            GestionnaireBd gestionnaireBd = new GestionnaireBd("server=localhost;database=restaurant;uid=root;pwd=;");
+            var plats = gestionnaireBd.GetPlats();
+            foreach (Plat plat in plats)
+                CustomConsole.WriteSuccess(plat.ToString());
+            Console.ReadLine();
+        }
+
     }
 }

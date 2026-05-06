@@ -80,16 +80,17 @@ namespace Lab_12_Projet
                 try
                 {
                     List<Dictionary<string, object>> rows = ExecuteSelect(
-                        "SELECT ingredients.id AS id, ingredients.nom AS nom, unites.nom AS nom_unite, inventaire.quantite_stock " +
-                        "FROM ingredients JOIN inventaire ON inventaire.ingredient_id = ingredients.id " +
-                        "JOIN unites ON unites.id = ingredients.id");
+                        "SELECT ingredients.id AS id, ingredients.nom AS nom, unites.nom AS nom_unite, inventaire.quantite_stock, ingredients.prix " +
+                        "FROM ingredients left JOIN inventaire ON inventaire.ingredient_id = ingredients.id " +
+                        "left JOIN unites ON unites.id = ingredients.unite_id");
                     foreach (var row in rows)
                     {
                         ingredient.Add(new Ingredient(
                             Convert.ToInt32(row["id"]),
                             row["nom"].ToString(),
                             Convert.ToDecimal(row["quantite_stock"]),
-                            row["nom_unite"].ToString()
+                            row["nom_unite"].ToString(),
+                            Convert.ToDecimal(row["prix"])
                             ));
                     }
                 }

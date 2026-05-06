@@ -27,21 +27,14 @@ namespace Lab_12_Projet
             Console.WriteLine(p.GetInfo("fr"));
             Console.WriteLine(p.GetInfo("en"));
 
-            GestionnaireBd gestionnaireBd = new GestionnaireBd("server=localhost;database=restaurant;uid=root;pwd=;");
+            
 
-            var plats = gestionnaireBd.GetPlats();
-            var ingredients = gestionnaireBd.GetIngredient();
-
-            foreach (Plat plat in plats)
-                CustomConsole.WriteSuccess(plat.ToString());
-            foreach (Ingredient ingredient in ingredients)
-                CustomConsole.WriteSuccess(ingredient.ToString());
+            
             Choix();
         }
 
         static void Choix()
         {
-            string[] options = { "Aller au resto", "Quitter" };
             ANSIConsole.ANSIString[] options = { "Aller au resto".Color(Color.White), "Quitter".Color(Color.IndianRed) };
             int index = 0;
             bool running = true;
@@ -97,7 +90,7 @@ namespace Lab_12_Projet
         static void ChoixMenu()
         {
             resto restaurent = new resto();
-            string[] options = { "Acheter un serveur", "Servir les clients", "Changer le menu", "Achter des ingrédients", "Achter une nouvelle recette" };
+            string[] options = { "Acheter un serveur", "Servir les clients", "Afficher le menu", "Achter des ingrédients", "Acheter une nouvelle recette" };
             int index = 0;
             bool running = true;
 
@@ -117,6 +110,7 @@ namespace Lab_12_Projet
                     {
                         Console.WriteLine("  " + options[i]);
                     }
+
                 }
 
                 // Lecture des touches
@@ -146,13 +140,11 @@ namespace Lab_12_Projet
                         }
                         else if (index ==2)
                         {
-                            running = false;
-                            Console.WriteLine("ingrédients");
+                            restaurent.AfficherMenu();
                         }
                         else if (index == 3)
                         {
-                            running = false;
-                            Console.WriteLine("ingrédients");
+                            restaurent.AcheterIngredient();
                         }
                         else if (index == 4)
                         {
@@ -165,6 +157,7 @@ namespace Lab_12_Projet
         }
         static void ImageResto()
         {
+
             ANSIConsole.ANSIString reto = "RESTAURANT".Color(Color.Green);
             CustomConsole.WriteMessage("********** Bienvenue au Resto ! **********\n",ConsoleColor.Yellow);
 
