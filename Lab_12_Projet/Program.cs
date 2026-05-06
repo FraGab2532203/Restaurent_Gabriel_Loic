@@ -38,7 +38,7 @@ namespace Lab_12_Projet
         }
         static void Choix()
         {
-            string[] options = { "🍽 Aller au resto", "🚪 Quitter" };
+            string[] options = { "Aller au resto", "Quitter" };
             int index = 0;
             bool running = true;
 
