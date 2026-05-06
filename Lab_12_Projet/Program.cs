@@ -93,13 +93,14 @@ namespace Lab_12_Projet
         static void ChoixMenu()
         {
             resto restaurent = new resto();
-            string[] options = { "Acheter un serveur", "Servir les clients", "Changer le menu", "Achter des ingrédients", "Achter une nouvelle recette" };
+            string[] options = { "Acheter un serveur", "Marché noir", "Servir les clients", "Changer le menu", "Achter des ingrédients", "Achter une nouvelle recette" };
             int index = 0;
             bool running = true;
 
             while (running)
             {
                 Console.Clear();
+                Console.WriteLine($"{restaurent.Banque}");
 
                 // Affichage du menu
                 for (int i = 0; i < options.Length; i++)
@@ -137,25 +138,25 @@ namespace Lab_12_Projet
                         }
                         else if (index == 1)
                         {
-                            running = false;
-                            Console.WriteLine("Client");
+                            restaurent.MarcheNoir();
                         }
                         else if (index ==2)
                         {
                             running = false;
-                            Console.WriteLine("ingrédients");
                         }
                         else if (index == 3)
                         {
                             running = false;
-                            Console.WriteLine("ingrédients");
                         }
                         else if (index == 4)
                         {
                             running = false;
-                            Console.WriteLine("ingrédients");
                         }
-                        break;
+                        else if (index == 5)
+                        {
+                            running = false;
+                        }
+                            break;
                 }
             }
         }
