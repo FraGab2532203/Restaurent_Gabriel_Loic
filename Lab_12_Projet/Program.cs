@@ -5,6 +5,8 @@ using MySql.Data.MySqlClient;
 using PersonLibrary;
 using PersonLibrary.Model;
 using System.Data;
+using ANSIConsole;
+using System.Drawing;
 
 namespace Lab_12_Projet
 {
@@ -14,7 +16,7 @@ namespace Lab_12_Projet
         static void Menu()
         {
             Console.Clear();
-            Console.WriteLine("Menu");
+            ChoixMenu();
         }
 
         static void Main(string[] args)
@@ -33,9 +35,10 @@ namespace Lab_12_Projet
                 CustomConsole.WriteSuccess(plat.ToString());
             Choix();
         }
+
         static void Choix()
         {
-            string[] options = { "🍽 Aller au resto", "🚪 Quitter" };
+            ANSIConsole.ANSIString[] options = { "Aller au resto".Color(Color.White), "Quitter".Color(Color.IndianRed) };
             int index = 0;
             bool running = true;
 
@@ -49,8 +52,7 @@ namespace Lab_12_Projet
                 {
                     if (i == index)
                     {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("> " + options[i]);
+                        CustomConsole.WriteMessage("> " + options[i], ConsoleColor.Yellow);
                         Console.ResetColor();
                     }
                     else
@@ -77,6 +79,7 @@ namespace Lab_12_Projet
                     case ConsoleKey.Enter:
                         if (index == 0)
                         {
+                            running = false;
                             Menu();
                         }
                         else if (index == 1)
@@ -87,9 +90,79 @@ namespace Lab_12_Projet
                 }
             }
         }
+        static void ChoixMenu()
+        {
+            resto restaurent = new resto();
+            string[] options = { "Acheter un serveur", "Servir les clients", "Changer le menu", "Achter des ingrédients", "Achter une nouvelle recette" };
+            int index = 0;
+            bool running = true;
+
+            while (running)
+            {
+                Console.Clear();
+
+                // Affichage du menu
+                for (int i = 0; i < options.Length; i++)
+                {
+                    if (i == index)
+                    {
+                        CustomConsole.WriteMessage("> " + options[i], ConsoleColor.Yellow);
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine("  " + options[i]);
+                    }
+                }
+
+                // Lecture des touches
+                var key = Console.ReadKey(true).Key;
+
+                switch (key)
+                {
+                    case ConsoleKey.UpArrow:
+                        index--;
+                        if (index < 0) index = options.Length - 1;
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        index++;
+                        if (index >= options.Length) index = 0;
+                        break;
+
+                    case ConsoleKey.Enter:
+                        if (index == 0)
+                        {
+                            restaurent.AcheterServeur();
+                        }
+                        else if (index == 1)
+                        {
+                            running = false;
+                            Console.WriteLine("Client");
+                        }
+                        else if (index ==2)
+                        {
+                            running = false;
+                            Console.WriteLine("ingrédients");
+                        }
+                        else if (index == 3)
+                        {
+                            running = false;
+                            Console.WriteLine("ingrédients");
+                        }
+                        else if (index == 4)
+                        {
+                            running = false;
+                            Console.WriteLine("ingrédients");
+                        }
+                        break;
+                }
+            }
+        }
         static void ImageResto()
         {
-            Console.WriteLine("********** Bienvenue au Resto ! **********\n");
+            ANSIConsole.ANSIString reto = "RESTAURANT".Color(Color.Green);
+            CustomConsole.WriteMessage("********** Bienvenue au Resto ! **********\n",ConsoleColor.Yellow);
 
             Console.WriteLine("              (  )   (   )");
             Console.WriteLine("               ) (   )  (");
@@ -102,7 +175,7 @@ namespace Lab_12_Projet
             Console.WriteLine("       /               /|  |");
             Console.WriteLine("      /               / |  |");
             Console.WriteLine("     /_______________/  |  |");
-            Console.WriteLine("     |   RESTAURANT  |  |  |");
+            Console.WriteLine($"     |   {reto}  |  |  |");
             Console.WriteLine("     |---------------|  |  |");
             Console.WriteLine("     |   []    []    |  |  |");
             Console.WriteLine("     |               |  |  |");
@@ -114,18 +187,7 @@ namespace Lab_12_Projet
             Console.WriteLine("     |   [PORTE ]    | /");
             Console.WriteLine("     |_______________|/");
 
-            Console.WriteLine("******** Entrez dans le restaurent ********");
-
-
-            /*string entrer = "";
-            do
-            {
-                entrer = Console.ReadLine();
-                if (entrer == "entrer")
-                    Menu();
-                else
-                   CustomConsole.WriteError("Saisi invalide, veuiller *entrer* ou *partir*");
-            } while (entrer != "entrer" || entrer != "partir");*/
+            CustomConsole.WriteMessage("******** Entrez dans le restaurent ********",ConsoleColor.Yellow);
         }
     }
 }
