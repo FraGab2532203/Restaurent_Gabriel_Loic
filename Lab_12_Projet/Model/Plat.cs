@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab_12_Projet.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,13 @@ namespace Lab_12_Projet.Model
         public string Description { get; set; }
         public Decimal Prix { get; set; }
         public string Categorie { get; set; }
+        public List<Ingredient> listIngredient = new List<Ingredient>();
+        public List<Ingredient> ListIngredient
+        {
+            get {  return listIngredient; }
+            set { listIngredient = value; }
+        }
+
 
         public Plat(int id, string nom, string description, decimal prix, string categorie)
         {
@@ -21,11 +29,21 @@ namespace Lab_12_Projet.Model
             Description = description;
             Prix = prix;
             Categorie = categorie;
+            
+        }
+        public void ListIngredientAdd(Ingredient ingredient)
+        {
+            listIngredient.Add(ingredient);
         }
 
         public override string ToString()
         {
-            return $"{Id} - {Nom} - {Description} - {Prix} - {Categorie}";
+            string text = "";
+            foreach (Ingredient ingredient in listIngredient)
+            {
+                text += $"{ingredient.Nom} {ingredient.Quantite}";
+            }
+            return $"{Categorie} - {Id} - {Nom} - {Description} - {Prix} - {text}";
         }
     }
 }
