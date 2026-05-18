@@ -133,6 +133,13 @@ namespace Lab_12_Projet
                 }
             }
         }
+        public void FairePlat(Plat plat)
+        {
+            foreach (Ingredient ingre in plat.listIngredient)
+            {
+                ingre
+            }
+        }
 
         public void AcheterIngredient()
         {
@@ -169,6 +176,7 @@ namespace Lab_12_Projet
             foreach (Plat plat in plats)
                 CustomConsole.WriteSuccess(plat.ToString());
             Console.ReadLine();
+
         }
 
     }

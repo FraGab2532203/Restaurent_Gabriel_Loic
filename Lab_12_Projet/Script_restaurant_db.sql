@@ -1,7 +1,7 @@
 ﻿-- =========================
 -- BASE DE DONNÉES
 -- =========================
-
+drop DATABASE restaurant;
 CREATE DATABASE IF NOT EXISTS restaurant;
 USE restaurant;
 
@@ -99,21 +99,21 @@ INSERT INTO categories (nom) VALUES
 
 -- INGRÉDIENTS
 INSERT INTO ingredients (nom, unite_id, prix) VALUES
-('Poulet', 1, 2.99),
-('Boeuf', 1, 3.99),
-('Riz', 1, 1.39),
-('Pâtes', 1, 0.39),
-('Tomate', 1, .50),
-('Lait', 2, 4.25),
-('Fromage', 1, 4.50),
-('Sucre', 1, 1.00),
+('Poulet', 1, 9.99),
+('Boeuf', 1, 12.99),
+('Riz', 1, 7.99),
+('Pâtes', 1, 5.99),
+('Tomate', 1, 4.99),
+('Lait', 2, 14.99),
+('Fromage', 1, 13.99),
+('Sucre', 1, 4.99),
 ('Farine', 1, 2.25),
-('Oeuf', 3, 3.30),
-('Beurre', 1, 2.50),
-('Salade', 1, 1.25),
-('Pain', 3, 2.95),
-('Eau', 2, 0.25),
-('Café', 1, 0.67);
+('Oeuf', 3, 7.99),
+('Beurre', 1, 2.99),
+('Salade', 1, 5.99),
+('Pain', 3, 3.99),
+('Eau', 2, 0.99),
+('Café', 1, 1.99);
 
 -- INVENTAIRE INITIAL
 INSERT INTO inventaire (ingredient_id, quantite_stock) VALUES

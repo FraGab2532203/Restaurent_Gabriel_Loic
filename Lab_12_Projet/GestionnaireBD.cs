@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Lab_11_trycatch_dll;
+using Lab_12_Projet.Model;
+using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using Lab_12_Projet.Model;
-using Lab_11_trycatch_dll;
 
 namespace Lab_12_Projet
 {
@@ -55,16 +56,38 @@ namespace Lab_12_Projet
                 List<Plat> plats = new List<Plat>();
                 try
                 {
-                    List<Dictionary<string, object>> rows = ExecuteSelect(("SELECT * FROM plats INNER JOIN categories on categories.id = plats.id"));
-                    foreach(var row in rows)
+                    List<Dictionary<string, object>> rows = ExecuteSelect((
+                        "SELECT ingredients.id AS idP, ingredients.nom AS nomP, unites.nom AS nom_uniteP, inventaire.quantite_stock, ingredients.prix, "+
+                        "plats.id AS id, plats.nom AS nom, plats.description, plats.prix, categories.nom AS nomC, plat_ingredients.quantite AS qnt " +
+                        "FROM plats left JOIN plat_ingredients ON plat_ingredients.plat_id = plats.id "+
+                        "left JOIN ingredients ON plat_ingredients.ingredient_id = ingredients.id "+
+                        "left JOIN categories on categories.id = plats.id "+
+                        "left JOIN unites ON unites.id = ingredients.unite_id "+
+                        "left JOIN inventaire ON inventaire.ingredient_id = ingredients.id "));
+                        foreach (var row in rows)
                     {
                         plats.Add(new Plat(
-                            Convert.ToInt32(row["id"]), 
-                            row["nom"].ToString(), 
-                            row["description"].ToString(), 
-                            Convert.ToDecimal(row["prix"]), 
-                            row["nom"].ToString()
+                            Convert.ToInt32(row["id"]),
+                            row["nom"].ToString(),
+                            row["description"].ToString(),
+                            Convert.ToDecimal(row["prix"]),
+                            row["nomC"].ToString()
                             ));
+                        foreach (Plat platss in plats)
+                        {
+                            if (row["nom"] == platss.Nom)
+                            {
+                                platss.ListIngredientAdd(new Ingredient(
+                                    Convert.ToInt32(row["idP"]),
+                                row["nomP"].ToString(),
+                                Convert.ToDecimal(row["qnt"]),
+                                row["nom_uniteP"].ToString(),
+                                Convert.ToDecimal(row["prix"])
+                                ));
+                            }
+                        }
+
+                        
                     }
                 }
                 catch (Exception ex)
@@ -100,6 +123,9 @@ namespace Lab_12_Projet
                 }
                 return ingredient;
             }
+            
+            
+
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Lab_12_Projet
         private decimal prix;
         private decimal quantite;
         private string type;
+        
 
         public int Id
         {

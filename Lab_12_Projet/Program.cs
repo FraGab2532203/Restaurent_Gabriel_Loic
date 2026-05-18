@@ -90,8 +90,7 @@ namespace Lab_12_Projet
         static void ChoixMenu()
         {
             resto restaurent = new resto();
-            string[] options = { "Acheter un serveur", "Servir les clients", "Afficher le menu", "Achter des ingrédients", "Acheter une nouvelle recette" };
-            string[] options = { "Acheter un serveur", "Marché noir", "Servir les clients", "Changer le menu", "Achter des ingrédients", "Achter une nouvelle recette" };
+            string[] options = { "Acheter un serveur", "Marché noir", "Servir les clients", "Afficher le menu", "Acheter des ingrédients", "Achter une nouvelle recette" };
             int index = 0;
             bool running = true;
 
@@ -141,23 +140,16 @@ namespace Lab_12_Projet
                         }
                         else if (index ==2)
                         {
-<<<<<<< HEAD
+                            running = false;
+                        }
+                        else if (index == 3)
+                        {
                             restaurent.AfficherMenu();
-                        }
-                        else if (index == 3)
-                        {
-                            restaurent.AcheterIngredient();
-=======
-                            running = false;
-                        }
-                        else if (index == 3)
-                        {
-                            running = false;
->>>>>>> gabriel_Resto
                         }
                         else if (index == 4)
                         {
-                            running = false;
+
+                            restaurent.AcheterIngredient();
                         }
                         else if (index == 5)
                         {
