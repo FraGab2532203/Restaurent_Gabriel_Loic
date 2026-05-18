@@ -3,6 +3,8 @@
 -- =========================
 
 CREATE DATABASE IF NOT EXISTS restaurant;
+DROP DATABASE restaurant;
+
 USE restaurant;
 
 -- =========================

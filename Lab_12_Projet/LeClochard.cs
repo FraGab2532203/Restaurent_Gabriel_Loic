@@ -14,8 +14,9 @@ namespace Lab_12_Projet
 
         }
         //Méthode
-        public override void Bonus()
+        public override decimal Bonus(decimal argent)
         {
+            return argent;
         }
     }
 }

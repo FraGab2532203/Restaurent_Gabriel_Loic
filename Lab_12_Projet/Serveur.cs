@@ -28,6 +28,6 @@ namespace Lab_12_Projet
             this.nom = nom;
         }
         //Méthode
-        public abstract void Bonus();
+        public abstract decimal Bonus(decimal argent);
     }
 }

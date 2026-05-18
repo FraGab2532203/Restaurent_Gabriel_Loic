@@ -6,6 +6,8 @@ using Lab_12_Projet.Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using PersonLibrary;
+using PersonLibrary.Model;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -19,24 +21,40 @@ namespace Lab_12_Projet
         static Random rng = new Random();
         private List<Serveur> serveurs = new List<Serveur>();
         private decimal banque = 1000;
+        static GestionnaireBd gestionnaireBd = new GestionnaireBd("server=localhost;database=restaurant;uid=root;pwd=;");
+        private List<Plat> recetteDeblo = gestionnaireBd.GetPlats();
+
         //Parametre
+        public List<Serveur> Serveurs
+        {
+            get { return serveurs; }
+            set { serveurs = value; }
+        }
         public decimal Banque
         {
             get { return banque; }
             set { banque = value; }
+        }
+        public List<Plat> RecetteDeblo
+        {
+            get { return recetteDeblo; }
+            set { recetteDeblo = value; }
         }
         //Constructeur
 
         //Méthode
         public void MarcheNoir()
         {
+
             Console.Clear();
+            /*LeChien nue = new LeChien("Loïc");
+            decimal argent = 100m;
+            argent = nue.Bonus(argent);
+            Console.WriteLine(argent);*/
             for (int i = 0; i < serveurs.Count; i++)
-            {
                 Console.WriteLine($"{serveurs[i].Nom} est votre serveur");
-            }
             string serveurChoisit = Console.ReadLine();
-            if ( serveurChoisit == "Joseph")
+            if (serveurChoisit == "Joseph")
             {
                 Console.WriteLine("Vous ne pouvez pas vendre le clochard, personne n'en veut");
                 Console.ReadLine();
@@ -66,9 +84,7 @@ namespace Lab_12_Projet
                         Console.ResetColor();
                     }
                     else
-                    {
                         Console.WriteLine("  " + options[i]);
-                    }
                 }
 
                 // Lecture des touches
@@ -111,7 +127,7 @@ namespace Lab_12_Projet
                                 serveurs.Add(new HommeGambling("Victor"));
                             running = false;
                         }
-                        else if (index == 2 && banque >=1000)
+                        else if (index == 2 && banque >= 1000)
                         {
                             banque -= 1000;
                             int nombre = rng.Next(1, 100);
@@ -126,9 +142,7 @@ namespace Lab_12_Projet
                             running = false;
                         }
                         else if (index == 3)
-                        {
                             running = false;
-                        }
                         break;
                 }
             }
@@ -150,10 +164,10 @@ namespace Lab_12_Projet
             {
                 if (ingredient.Nom == reponce)
                 {
-                    if(ingredient.Prix <= banque)
+                    if (ingredient.Prix <= banque)
                     {
                         Console.WriteLine(ingredient);
-                        banque-=ingredient.Prix;
+                        banque -= ingredient.Prix;
                         ingredient.AcheterIngredients();
                         Console.WriteLine(ingredient);
                         Console.WriteLine(banque);
@@ -165,11 +179,69 @@ namespace Lab_12_Projet
         public void AfficherMenu()
         {
             GestionnaireBd gestionnaireBd = new GestionnaireBd("server=localhost;database=restaurant;uid=root;pwd=;");
-            var plats = gestionnaireBd.GetPlats();
-            foreach (Plat plat in plats)
-                CustomConsole.WriteSuccess(plat.ToString());
+            List<Plat> plats = gestionnaireBd.GetPlats();
+            for (int i = 0; i < plats.Count; i++)
+                Console.WriteLine(plats[i]);
             Console.ReadLine();
         }
+        public void AfficherClient()
+        {
+            Console.Clear();
+            GestionnaireBd gestionnaireBd = new GestionnaireBd("server=localhost;database=restaurant;uid=root;pwd=;");
+            List<Plat> plats = gestionnaireBd.GetPlats();
+            List<Plat> platsPersonne = new List<Plat>();
+            List<Person> persons = new List<Person>();
+            decimal prixTotal = 0;
+            int nbPersonne = rng.Next(0, 5);
+            for (int i = 0; i < nbPersonne; i++)
+            {
+                platsPersonne.Add(plats[rng.Next(plats.Count)]);
+                PersonGenerator.LoadPeople();
+                persons.Add(PersonGenerator.GetRandomPerson());
+                prixTotal += platsPersonne[i].Prix;
+                Console.WriteLine(persons[i].GetInfo("fr") + " " + platsPersonne[i]);
+            }
+            decimal bonusTotal = 0;
+            Console.WriteLine("sans bonus " + prixTotal);
+            AppliquerBonus(bonusTotal, prixTotal);
 
+        }
+        public void AppliquerBonus(decimal bonusTotal,decimal prixTotal)
+        {
+            if (serveurs.Count != 0)
+                for (int i = 0; i < serveurs.Count; i++)
+                    bonusTotal += serveurs[i].Bonus(prixTotal);
+            if (bonusTotal == 0)
+                banque += prixTotal;
+            else
+            {
+                Console.WriteLine("Avec bonus " + bonusTotal);
+                banque += bonusTotal;
+            }
+            Console.ReadLine();
+        }
+        public void AcheterDesRecettes()
+        {
+            GestionnaireBd gestionnaireBd = new GestionnaireBd("server=localhost;database=restaurant;uid=root;pwd=;");
+            List<Plat> plats = gestionnaireBd.GetToutPlats();
+            for (int i = 0; i < plats.Count; i++)
+                Console.WriteLine(plats[i]);
+            Console.WriteLine("Quelle recettes voulez-vous acheter ?");
+            int nombre = 0;
+            int.TryParse(Console.ReadLine(), out nombre);
+            for (int i = 0; i < plats.Count; i++)
+                if (plats[i].Id == nombre && plats[i].Prix < banque)
+                {
+                    recetteDeblo.Add(plats[i]);
+                    banque -= recetteDeblo[i].Prix;
+                }
+        }
+        public void RecetteDeverouiller()
+        {
+            for (int i = 0; i < recetteDeblo.Count; i++)
+                Console.WriteLine(recetteDeblo[i]);
+            Console.ReadLine();
+
+        }
     }
 }

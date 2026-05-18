@@ -73,6 +73,29 @@ namespace Lab_12_Projet
                 }
                 return plats;
             }
+            public List<Plat> GetToutPlats()
+            {
+                List<Plat> plats = new List<Plat>();
+                try
+                {
+                    List<Dictionary<string, object>> rows = ExecuteSelect(("SELECT * FROM plats"));
+                    foreach (var row in rows)
+                    {
+                        plats.Add(new Plat(
+                            Convert.ToInt32(row["id"]),
+                            row["nom"].ToString(),
+                            row["description"].ToString(),
+                            Convert.ToDecimal(row["prix"]),
+                            row["nom"].ToString()
+                            ));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    CustomConsole.WriteError(ex.Message);
+                }
+                return plats;
+            }
 
             public List<Ingredient> GetIngredient()
             {

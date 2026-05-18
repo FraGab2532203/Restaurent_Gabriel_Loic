@@ -21,15 +21,6 @@ namespace Lab_12_Projet
 
         static void Main(string[] args)
         {
-
-            PersonGenerator.LoadPeople();
-            Person p = PersonGenerator.GetRandomPerson();
-            Console.WriteLine(p.GetInfo("fr"));
-            Console.WriteLine(p.GetInfo("en"));
-
-            
-
-            
             Choix();
         }
 
@@ -90,8 +81,7 @@ namespace Lab_12_Projet
         static void ChoixMenu()
         {
             resto restaurent = new resto();
-            string[] options = { "Acheter un serveur", "Servir les clients", "Afficher le menu", "Achter des ingrédients", "Acheter une nouvelle recette" };
-            string[] options = { "Acheter un serveur", "Marché noir", "Servir les clients", "Changer le menu", "Achter des ingrédients", "Achter une nouvelle recette" };
+            string[] options = { "Acheter un serveur", "Marché noir", "Afficher le menu", "Achter des ingrédients", "Servir les clients", "Acheter une nouvelle recette", "Recettes deverouiller"};
             int index = 0;
             bool running = true;
 
@@ -109,10 +99,7 @@ namespace Lab_12_Projet
                         Console.ResetColor();
                     }
                     else
-                    {
                         Console.WriteLine("  " + options[i]);
-                    }
-
                 }
 
                 // Lecture des touches
@@ -132,37 +119,19 @@ namespace Lab_12_Projet
 
                     case ConsoleKey.Enter:
                         if (index == 0)
-                        {
                             restaurent.AcheterServeur();
-                        }
                         else if (index == 1)
-                        {
                             restaurent.MarcheNoir();
-                        }
                         else if (index ==2)
-                        {
-<<<<<<< HEAD
                             restaurent.AfficherMenu();
-                        }
                         else if (index == 3)
-                        {
                             restaurent.AcheterIngredient();
-=======
-                            running = false;
-                        }
-                        else if (index == 3)
-                        {
-                            running = false;
->>>>>>> gabriel_Resto
-                        }
                         else if (index == 4)
-                        {
-                            running = false;
-                        }
+                            restaurent.AfficherClient();
                         else if (index == 5)
-                        {
-                            running = false;
-                        }
+                            restaurent.AcheterDesRecettes();
+                        else if (index == 6)
+                            restaurent.RecetteDeverouiller();
                             break;
                 }
             }
